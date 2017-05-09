@@ -270,7 +270,7 @@ Login
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=  Run Keyword If ${ARGUMENTS[3]} == 'quantity'               Get Text  xpath=html/body/div/div[3]/table/tbody/tr[@class='${item_id}']/td[2]/span[1]
+  ${return_value}=  Run Keyword If ${ARGUMENTS[3]} == 'quantity'                Get Text  xpath=html/body/div/div[3]/table/tbody/tr[@class='${item_id}']/td[2]/span[1]
   ...    ELSE  Run Keyword  If  ${AGUMENTS[3]} == 'unit.code'                   Get Text  xpath=html/body/div/div[3]/table/tbody/tr[@class='${item_id}']/td[2]/span[3]
   ...    ELSE  Run Keyword  If  ${AGUMENTS[3]} == 'unit.name'                   Get Text  xpath=html/body/div/div[3]/table/tbody/tr[@class='${item_id}']/td[2]/span[2]
   ...    ELSE  Run Keyword  If  ${AGUMENTS[3]} == 'description'                 Get Text  xpath=html/body/div/div[3]/table/tbody/tr[@class='${item_id}']/td[1]/span[1]
@@ -299,7 +299,7 @@ Login
 
 Отримати інформацію про procurementMethodType
   ${type}=           Отримати текст із поля і показати на сторінці   procurementMethodType
-  ${return_value}=   convert_prozora_string_to_common_string         ${type}
+  ${return_value}=   prozora_service.convert_prozora_string_to_common_string         ${type}
   [return]           ${return_value}
 
 Отримати інформацію про dgfID
@@ -326,7 +326,7 @@ Login
 Отримати інформацію про status
   Reload Page
   ${status}=         Get Text   xpath=.//*[@id='status']/span[2]
-  ${return_value}=   convert_prozora_string_to_common_string    ${status}
+  ${return_value}=   prozora_service.convert_prozora_string_to_common_string    ${status}
   log to console     ${return_value}
   [return]           ${return_value}
 
@@ -410,12 +410,12 @@ Login
 
 Отримати інформацію про value.currency
   ${currency}=   Отримати текст із поля і показати на сторінці  value.currency
-  ${return_value}=   convert_prozora_string_to_common_string        ${currency}
+  ${return_value}=   prozora_service.convert_prozora_string_to_common_string        ${currency}
   [return]           ${return_value}
 
 Отримати інформацію про value.valueAddedTaxIncluded
   ${tax}=    Отримати текст із поля і показати на сторінці  value.valueAddedTaxIncluded
-  ${return_value}=   convert_prozora_string_to_common_string        ${tax}
+  ${return_value}=   prozora_service.convert_prozora_string_to_common_string        ${tax}
   [return]           ${return_value}
 
 Отримати інформацію про auctionID
@@ -540,8 +540,15 @@ Login
 
 Отримати інформацію про awards[${index}].status
   Reload Page
-  Click Element      xpath=html/body/div[1]/div/div[2]/div/ul/li[1]/a
-  ${return_value}=   Отримати текст із поля і показати на сторінці  awards[${index}].status
+  log to console  ${index}
+  ${index}=    inc    ${index}
+  Sleep  1
+  Click Element            xpath=html/body/div/div/div[2]/div/ul/li[1]/a
+  Sleep  1
+  ${value}=    Get Text    xpath=.//*[@id='result-auc']/table/tbody/tr[${index}]/td[2]/p
+  ${return_value}=   prozora_service.convert_prozora_string_to_common_string    ${value}
+  log to console     ${value}
+  log to console     ${return_value}
   [return]           ${return_value}
 
 Подати цінову пропозицію
@@ -633,8 +640,8 @@ Login
   Reload Page
   Wait Until Page Contains Element    xpath=html/body/header/div[2]/div/div[3]/a[1]
   Click Element                       xpath=html/body/header/div[2]/div/div[3]/a[1]
-  Wait Until Page Contains Element    xpath=html/body/div/div/div[1]/div/ul/li[2]/a
-  Click Element                       xpath=html/body/div/div/div[1]/div/ul/li[2]/a
+  Wait Until Page Contains Element    xpath=//div[@class="panel panel-default"][1]/ul/li[2]/a
+  Click Element                       xpath=//div[@class="panel panel-default"][1]/ul/li[2]/a
   Wait Until Page Contains Element    id=documents_upload
   Choose File                         id=documents_upload     ${filepath}
   Click Element                       xpath=html/body/div/div/div[2]//form/div[2]/button
@@ -842,7 +849,7 @@ Login
 
 Скасування рішення кваліфікаційної комісії
   [Arguments]  ${username}  ${tender_uaid}  ${award_num}
-  Reload Page
+  prozora.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
   Wait Until Page Contains Element      id=disqualification
   Click Element                         id=disqualification
 
@@ -872,7 +879,7 @@ Login
 
 Завантажити протокол аукціону
   [Arguments]  ${username}  ${tender_uaid}  ${filepath}  ${award_index}
-  Reload Page
+  tovprof.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
   Wait Until Page Contains Element    id=addProtocol
   Click Element                       id=addProtocol
   Sleep   1
@@ -905,3 +912,7 @@ Login
 Підтвердити наявність протоколу аукціону
   [Arguments]  ${username}  ${tender_uaid}  ${award_index}
   prozora.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
+  Reload Page
+  Wait Until Page Contains Element    id=qualification
+  Click Element                       id=qualification
+  Page Should Contain Element         xpath=.//span[contains(text(), 'auctionProtocol')]
