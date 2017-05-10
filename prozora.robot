@@ -879,7 +879,7 @@ Login
 
 Завантажити протокол аукціону
   [Arguments]  ${username}  ${tender_uaid}  ${filepath}  ${award_index}
-  tovprof.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+  prozora.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
   Wait Until Page Contains Element    id=addProtocol
   Click Element                       id=addProtocol
   Sleep   1
