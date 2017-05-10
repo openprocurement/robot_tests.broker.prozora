@@ -915,4 +915,5 @@ Login
   Reload Page
   Wait Until Page Contains Element    id=qualification
   Click Element                       id=qualification
-  Page Should Contain Element         xpath=.//span[contains(text(), 'auctionProtocol')]
+  ${docs}=   Get Matching Xpath Count   xpath=html/body/div/div/div[1]/div[@class = 'document']
+  Should Be True  ${docs} > 1
