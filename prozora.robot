@@ -235,11 +235,11 @@ Login
 
 Отримати інформацію про cancellations[0].status
   Reload Page
-  ${return_value}=   Отримати текст із поля і показати на сторінці   cancellations[0].status
+  ${return_value}=   Get Text  ${locator.cancellations[0].status}
   [return]           ${return_value}
 
 Отримати інформацію про cancellations[0].reason
-  ${return_value}=   Отримати текст із поля і показати на сторінці   cancellations[0].reason
+  ${return_value}=   Get Text  ${locator.cancellations[0].reason}
   [return]           ${return_value}
 
 Оновити сторінку з тендером
@@ -288,40 +288,35 @@ Login
   ${return_value}=  Run Keyword  Отримати інформацію про ${ARGUMENTS[2]}
   [return]           ${return_value}
 
-Отримати текст із поля і показати на сторінці
-  [Arguments]   ${fieldname}
-  ${return_value}=   Get Text  ${locator.${fieldname}}
-  [return]           ${return_value}
-
 Отримати інформацію про title
-  ${return_value}=   Отримати текст із поля і показати на сторінці   title
+  ${return_value}=   Get Text  ${locator.title}
   [return]           ${return_value}
 
 Отримати інформацію про procurementMethodType
-  ${type}=           Отримати текст із поля і показати на сторінці   procurementMethodType
+  ${type}=           Get Text  ${locator.procurementMethodType}
   ${return_value}=   prozora_service.convert_prozora_string_to_common_string         ${type}
   [return]           ${return_value}
 
 Отримати інформацію про dgfID
-  ${return_value}=   Отримати текст із поля і показати на сторінці   dgf
+  ${return_value}=   Get Text  ${locator.dgf}
   [return]           ${return_value}
 
 Отримати інформацію про dgfDecisionID
-  ${return_value}=   Отримати текст із поля і показати на сторінці   dgfDecisionID
+  ${return_value}=   Get Text  ${locator.dgfDecisionID}
   [return]           ${return_value}
 
 Отримати інформацію про dgfDecisionDate
-  ${date_value}=   Отримати текст із поля і показати на сторінці   dgfDecisionDate
+  ${date_value}=     Get Text  ${locator.dgfDecisionDate}
   ${return_value}=   prozora_service.convert_date    ${date_value}
   [return]           ${return_value}
 
 Отримати інформацію про tenderAttempts
-  ${return_value}=   Отримати текст із поля і показати на сторінці   tenderAttempts
+  ${return_value}=   Get Text  ${locator.tenderAttempts}
   ${return_value}=   Convert To Integer   ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про eligibilityCriteria
-  ${return_value}=   Отримати текст із поля і показати на сторінці   eligibilityCriteria
+  ${return_value}=   Get Text  ${locator.eligibilityCriteria}
 
 Отримати інформацію про status
   Reload Page
@@ -331,16 +326,16 @@ Login
   [return]           ${return_value}
 
 Отримати інформацію про description
-  ${return_value}=   Отримати текст із поля і показати на сторінці   description
+  ${return_value}=   Get Text  ${locator.description}
   [return]           ${return_value}
 
 Отримати інформацію про value.amount
-  ${return_value}=   Отримати текст із поля і показати на сторінці  value.amount
+  ${return_value}=   Get Text  ${locator.value.amount}
   ${return_value}=   Convert To Number   ${return_value.replace(' ', '').replace(',', '.')}
   [return]           ${return_value}
 
 Отримати інформацію про minimalStep.amount
-  ${return_value}=   Отримати текст із поля і показати на сторінці   minimalStep.amount
+  ${return_value}=   Get Text  ${locator.minimalStep.amount}
   ${return_value}=   convert to number   ${return_value.replace(' ', '').replace(',', '.')}
   [return]           ${return_value}
 
@@ -362,7 +357,7 @@ Login
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=    Отримати текст із поля і показати на сторінці   items[${index}].quantity
+  ${return_value}=    Get Text  ${locator.items[${index}].quantity}
   ${return_value}=    Convert To Number   ${return_value}
   [return]           ${return_value}
 
@@ -370,131 +365,131 @@ Login
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[${index}].unit.code
+  ${return_value}=   Get Text  ${locator.items[${index}].unit.code}
   [return]           ${return_value}
 
 Отримати інформацію про items[${index}].unit.name
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[${index}].unit.name
+  ${return_value}=   Get Text  ${locator.items[${index}].unit.name}
   [return]           ${return_value}
 
 Отримати інформацію про items[${index}].description
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[${index}].description
+  ${return_value}=   Get Text  ${locator.items[${index}].description}
   [return]           ${return_value}
 
 Отримати інформацію про items[${index}].classification.id
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[${index}].classification.id
+  ${return_value}=   Get Text  ${locator.items[${index}].classification.id}
   [return]           ${return_value}
 
 Отримати інформацію про items[${index}].classification.scheme
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[${index}].classification.scheme
+  ${return_value}=   Get Text  ${locator.items[${index}].classification.scheme}
   [return]           ${return_value}
 
 Отримати інформацію про items[${index}].classification.description
   sleep  1
   Click Element      xpath=html/body/div/div/div[2]/div/ul/li[3]/a
   sleep  1
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[${index}].classification.description
+  ${return_value}=   Get Text  ${locator.items[${index}].classification.description}
   [return]           ${return_value}
 
 Отримати інформацію про value.currency
-  ${currency}=   Отримати текст із поля і показати на сторінці  value.currency
+  ${currency}=       Get Text  ${locator.value.currency}
   ${return_value}=   prozora_service.convert_prozora_string_to_common_string        ${currency}
   [return]           ${return_value}
 
 Отримати інформацію про value.valueAddedTaxIncluded
-  ${tax}=    Отримати текст із поля і показати на сторінці  value.valueAddedTaxIncluded
+  ${tax}=            Get Text  ${locator.value.valueAddedTaxIncluded}
   ${return_value}=   prozora_service.convert_prozora_string_to_common_string        ${tax}
   [return]           ${return_value}
 
 Отримати інформацію про auctionID
-  ${return_value}=   Отримати текст із поля і показати на сторінці   tenderId
+  ${return_value}=   Get Text  ${locator.tenderId}
   [return]           ${return_value}
 
 Отримати інформацію про procuringEntity.name
-  ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.name
+  ${return_value}=   Get Text  ${locator.procuringEntity.name}
   [return]           ${return_value}
 
 Отримати інформацію про items[0].deliveryLocation.latitude
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.latitude
+  ${return_value}=   Get Text  ${locator.items[0].deliveryLocation.latitude}
   ${return_value}=   Convert To Number   ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про items[0].deliveryLocation.longitude
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.longitude
+  ${return_value}=   Get Text  ${locator.items[0].deliveryLocation.longitude}
   ${return_value}=   Convert To Number   ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про auctionPeriod.startDate
-  ${value}=   Отримати текст із поля і показати на сторінці   auctionPeriod.startDate
+  ${value}=          Get Text  ${locator.auctionPeriod.startDate}
   ${return_value}=   prozora_service.convert_date_time_to_iso   ${value}
   log to console     ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про auctionPeriod.endDate
   Reload Page
-  ${value}=   Отримати текст із поля і показати на сторінці   auctionPeriod.endDate
+  ${value}=          Get Text  ${locator.auctionPeriod.endDate}
   ${return_value}=   prozora_service.convert_date_time_to_iso   ${value}
   log to console     ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про tenderPeriod.startDate
-  ${value}=   Отримати текст із поля і показати на сторінці   tenderPeriod.startDate
+  ${value}=          Get Text  ${locator.tenderPeriod.startDate}
   ${return_value}=   prozora_service.convert_date_time_to_iso   ${value}
   log to console     ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про tenderPeriod.endDate
-  ${value}=   Отримати текст із поля і показати на сторінці   tenderPeriod.endDate
+  ${value}=          Get Text  ${locator.tenderPeriod.endDate}
   ${return_value}=   prozora_service.convert_date_time_to_iso   ${value}
   log to console     ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про enquiryPeriod.startDate
-  ${value}=   Отримати текст із поля і показати на сторінці   tenderPeriod.startDate
+  ${value}=          Get Text  ${locator.tenderPeriod.startDate}
   ${return_value}=   prozora_service.convert_date_time_to_iso   ${value}
   log to console     ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про enquiryPeriod.endDate
-  ${value}=   Отримати текст із поля і показати на сторінці   tenderPeriod.endDate
+  ${value}=          Get Text  ${locator.tenderPeriod.endDate}
   ${return_value}=   prozora_service.convert_date_time_to_iso   ${value}
   log to console     ${return_value}
   [return]           ${return_value}
 
 Отримати інформацію про items[0].deliveryAddress.countryName
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.countryName
+  ${return_value}=   Get Text  ${locator.items[0].deliveryAddress.countryName}
   [return]           ${return_value.split(', ')[0]}
 
 Отримати інформацію про items[0].deliveryAddress.postalCode
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.postalCode
+  ${return_value}=   Get Text  ${locator.items[0].deliveryAddress.postalCode}
   [return]           ${return_value.split(', ')[1]}
 
 Отримати інформацію про items[0].deliveryAddress.region
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.region
+  ${return_value}=   Get Text  ${locator.items[0].deliveryAddress.region}
   [return]           ${return_value.split(', ')[2]}
 
 Отримати інформацію про items[0].deliveryAddress.locality
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.locality
+  ${return_value}=   Get Text  ${locator.items[0].deliveryAddress.locality}
   [return]           ${return_value.split(', ')[3]}
 
 Отримати інформацію про items[0].deliveryAddress.streetAddress
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.streetAddress
+  ${return_value}=   Get Text  ${locator.items[0].deliveryAddress.streetAddress}
   [return]           ${return_value.split(', ')[4]}
 
 Отримати інформацію про items[0].deliveryDate.endDate
-  ${date_value}=     Отримати текст із поля і показати на сторінці  items[0].deliveryDate.endDate
+  ${date_value}=     Get Text  ${locator.items[0].deliveryDate.endDate}
   ${return_value}=   prozora_service.convert_date    ${date_value}
   [return]           ${return_value}
 
