@@ -122,6 +122,8 @@ Login
   ${currency}=                 Get From Dictionary     ${ARGUMENTS[1].data.value}            currency
   ${valueAddedTaxIncluded}=    Get From Dictionary     ${ARGUMENTS[1].data.value}            valueAddedTaxIncluded
   ${start_auction}=        Get From Dictionary         ${ARGUMENTS[1].data.auctionPeriod}    startDate
+  ${start_auction}=        convert_iso_to_date_time    ${start_auction}
+  ${email}                 Get From Dictionary  ${ARGUMENTS[1].data.procuringEntity.contactPoint}  email
   Switch Browser    ${ARGUMENTS[0]}
   Go to   ${USERS.users['${ARGUMENTS[0]}'].default_page}
   Wait Until Page Contains Element     id=createAuction                                 20
@@ -138,6 +140,7 @@ Login
   Input text                           xpath=//input[@name='auctionPeriod']     ${start_auction}
   Input text                           xpath=//input[@name='minStep']           ${step_rate}
   Input text                           xpath=//input[@name='peName']            ${procuringEntity_name}
+  Input text                           xpath=//input[@name='email']             ${email}
   ${number_of_items}=    Get Length    ${items}
   :FOR  ${index}  IN RANGE  ${number_of_items}
   \  Sleep  5
