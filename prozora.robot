@@ -943,7 +943,6 @@ Login
   [Arguments]  ${username}  ${tender_uaid}  ${award_index}
   Reload Page
   ${award_index}=    inc    ${award_index}
-  ${type}=  Отримати інформацію про procurementMethodType
   Wait Until Page Contains Element    xpath=//a[@aria-controls="result-auc"]
   Click Element                       xpath=//a[@aria-controls="result-auc"]
   ${docs}=  Get Matching Xpath Count  xpath=.//*[@id='result-auc']/table/tbody/tr[${award_index}]/td[4]/a[@class="auctionProtocol"]
