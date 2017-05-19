@@ -773,7 +773,7 @@ Login
   ...    ELSE    Set Variable    ${doc_value}
   ${doc_value}=  Run Keyword If  '${field_name}' == 'documentType'
   ...    convert_document_type  ${doc_value}
-  ...    ELSE    Get Text    xpath=.//*[@id='auc-docs']/table/tbody/tr[@class='doc ${doc_id}']/td[1]/a/p
+  ...    ELSE    Set Variable   ${doc_value}
   [Return]   ${doc_value}
 
 Відповісти на запитання
@@ -944,8 +944,5 @@ Login
   ${type}=  Отримати інформацію про procurementMethodType
   Wait Until Page Contains Element    xpath=//a[@aria-controls="result-auc"]
   Click Element                       xpath=//a[@aria-controls="result-auc"]
-  ${docs}=  Get Matching Xpath Count  xpath=.//*[@id='result-auc']/table/tbody/tr[1]/td[4]/a
-  ${num}=  Run Keyword If  '${type}' == 'dgfFinancialAssets'
-  ...  Set Variable  1
-  ...  ELSE  Set Variable  0
-  Should Be True  ${docs} > ${num}
+  ${docs}=  Get Matching Xpath Count  xpath=.//*[@id='result-auc']/table/tbody/tr[1]/td[4]/a[@class="auctionProtocol"]
+  Should Be True  ${docs} > 0
