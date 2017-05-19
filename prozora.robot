@@ -209,13 +209,15 @@ Login
   ...      ${ARGUMENTS[2]} ==  questionId
   ${title}=        Get From Dictionary  ${ARGUMENTS[2].data}  title
   ${description}=  Get From Dictionary  ${ARGUMENTS[2].data}  description
+  ${email}=        Get From Dictionary  ${ARGUMENTS[1].data.procuringEntity.contactPoint}  email
   Reload Page
   Wait Until Page Contains Element    id=addQuestion
   Click Element                       id=addQuestion
-  Wait Until Page Contains Element    xpath=html/body/div/div/form/div[1]/input
-  Input text                          xpath=html/body/div/div/form/div[1]/input    ${title}
-  Input text                          xpath=html/body/div/div/form/div[2]/input    ${description}
-  Click Element                       xpath=html/body/div/div/form/button
+  Wait Until Page Contains Element    xpath=.//*[@id='modalAddQuestion']/div/div/div[2]/form/div[1]/input
+  Input text                          xpath=.//*[@id='modalAddQuestion']/div/div/div[2]/form/div[1]/input    ${email}
+  Input text                          xpath=.//*[@id='modalAddQuestion']/div/div/div[2]/form/div[2]/input    ${title}
+  Input text                          xpath=.//*[@id='modalAddQuestion']/div/div/div[2]/form/div[3]/textarea    ${description}
+  Click Element                       xpath=.//*[@id='modalAddQuestion']/div/div/div[2]/form/button
 
 Скасувати закупівлю
   [Arguments]  @{ARGUMENTS}
@@ -229,7 +231,7 @@ Login
   Wait Until Page Contains Element   id=cancel
   Click Element     id=cancel
   Sleep   2
-  Input text        xpath=.//*[@id='modalCancelAuction']/div/div/div[2]/form/div[1]/input    ${ARGUMENTS[2]}
+  Select From List By Value    xpath=.//*[@id='modalCancelAuction']/div/div/div[2]/form/div[1]/select    ${ARGUMENTS[2]}
   Choose File       xpath=.//*[@id='modalCancelAuction']/div/div/div[2]/form/div[2]/input    ${ARGUMENTS[3]}
   Input text        xpath=.//*[@id='modalCancelAuction']/div/div/div[2]/form/div[3]/input    ${ARGUMENTS[4]}
   Click Element     xpath=.//*[@id='modalCancelAuction']/div/div/div[2]/form/button
@@ -546,8 +548,8 @@ Login
   Sleep  1
   Click Element    xpath=//a[@aria-controls="auc-questions"]
   Sleep  1
-  Wait Until Page Contains Element    xpath=.//*[@id='auc-questions']/table/tbody/tr[${index}]/td[1]/span[2]
-  ${return_value}=   Get text         xpath=.//*[@id='auc-questions']/table/tbody/tr[${index}]/td[1]/span[2]
+  Wait Until Page Contains Element    xpath=.//*[@id='auc-questions']/table/tbody/tr[${index}]/td[3]
+  ${return_value}=   Get text         xpath=.//*[@id='auc-questions']/table/tbody/tr[${index}]/td[3]
   [return]           ${return_value}
 
 Отримати інформацію про questions[${index}].date
