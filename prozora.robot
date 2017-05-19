@@ -669,6 +669,7 @@ Login
   Click Element                       xpath=//div[@class="panel panel-default"][1]/ul/li[2]/a
   Wait Until Page Contains Element    id=documents_upload
   Choose File                         id=documents_upload     ${filepath}
+  Sleep  5
   Click Element                       xpath=html//form//button[@type="submit"][@class="btn btn-primary"]
   Sleep  1
 
@@ -941,8 +942,9 @@ Login
 Підтвердити наявність протоколу аукціону
   [Arguments]  ${username}  ${tender_uaid}  ${award_index}
   Reload Page
+  ${award_index}=    inc    ${award_index}
   ${type}=  Отримати інформацію про procurementMethodType
   Wait Until Page Contains Element    xpath=//a[@aria-controls="result-auc"]
   Click Element                       xpath=//a[@aria-controls="result-auc"]
-  ${docs}=  Get Matching Xpath Count  xpath=.//*[@id='result-auc']/table/tbody/tr[1]/td[4]/a[@class="auctionProtocol"]
+  ${docs}=  Get Matching Xpath Count  xpath=.//*[@id='result-auc']/table/tbody/tr[${award_index}]/td[4]/a[@class="auctionProtocol"]
   Should Be True  ${docs} > 0
