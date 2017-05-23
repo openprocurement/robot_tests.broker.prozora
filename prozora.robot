@@ -585,7 +585,7 @@ Login
   ${amount}=    get_str          ${ARGUMENTS[2].data.value.amount}
   ${is_qualified}=   is_qualified         ${ARGUMENTS[2]}
   ${is_eligible}=    is_eligible          ${ARGUMENTS[2]}
-  tovprof.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
+  prozora.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
   ${type}=    Отримати інформацію про procurementMethodType
   Reload Page
   Wait Until Page Contains Element    id=makeBid
