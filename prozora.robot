@@ -128,7 +128,7 @@ Login
   Go to   ${USERS.users['${ARGUMENTS[0]}'].default_page}
   Wait Until Page Contains Element     id=createAuction                                 20
   Click Element                        id=createAuction
-  Wait Until Page Contains Element     id=auctionType                                   5
+  Wait Until Page Contains Element     id=auctionType                                   10
   Select From List By Value            id=auctionType                           ${ARGUMENTS[1].data.procurementMethodType}
   Input text                           xpath=//input[@name='title']             ${title}
   Input text                           xpath=//textarea[@name='description']    ${description}
@@ -149,9 +149,9 @@ Login
   Sleep   1
   Click Element    xpath=html/body/div/div/div[2]/div/div[2]/form/button
   Sleep   1
-  Wait Until Page Contains Element  id=publicAuction   5
+  Wait Until Page Contains Element  id=publicAuction   10
   Click Element                     id=publicAuction
-  Wait Until Page Contains          ${title}           5
+  Wait Until Page Contains          ${title}           10
   ${tender_id}=    Get Text        xpath=.//*[@id='aucId']/span[2]
   ${TENDER}=       Get Text        xpath=.//*[@id='aucId']/span[2]
   [return]    ${TENDER}
@@ -585,7 +585,9 @@ Login
   ${amount}=    get_str          ${ARGUMENTS[2].data.value.amount}
   ${is_qualified}=   is_qualified         ${ARGUMENTS[2]}
   ${is_eligible}=    is_eligible          ${ARGUMENTS[2]}
-  prozora.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
+  tovprof.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
+  ${type}=    Отримати інформацію про procurementMethodType
+  Reload Page
   Wait Until Page Contains Element    id=makeBid
   Click Element                       id=makeBid
   Sleep   1
@@ -593,6 +595,7 @@ Login
   Input Text                          xpath=.//*[@id='modalMakeBid']//input[@name="bidValue"]    ${amount}
   Run Keyword If    ${is_qualified}   Sleep  1
   ...  ELSE  ${amount}=  0
+  Run Keyword If    '${type}' == 'dgfFinancialAssets'    Click Element    xpath=//input[@name="eligible"]
   Click Element     xpath=.//*[@id='modalMakeBid']//button[@type="submit"]
   [return]          ${amount}
 
