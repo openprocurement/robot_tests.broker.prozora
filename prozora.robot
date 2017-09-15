@@ -97,7 +97,7 @@ ${locator.awards[1].status}                                     xpath=.//*[@id='
 
 Login
   [Arguments]  @{ARGUMENTS}
-  Click Element    xpath=html/body/header/div[2]/div/div[3]/a[1]
+  Click Element    xpath=.//header/div[2]/div/div[3]/a[1]
   Sleep   1
   Input Text       xpath=html/body/div/div/div/div/div[2]/form/div[1]/input    ${USERS.users['${ARGUMENTS[0]}'].login}
   Input Text       xpath=html/body/div/div/div/div/div[2]/form/div[2]/input    ${USERS.users['${ARGUMENTS[0]}'].password}
@@ -123,7 +123,7 @@ Login
   ${valueAddedTaxIncluded}=    Get From Dictionary     ${ARGUMENTS[1].data.value}            valueAddedTaxIncluded
   ${start_auction}=        Get From Dictionary         ${ARGUMENTS[1].data.auctionPeriod}    startDate
   ${start_auction}=        convert_iso_to_date_time    ${start_auction}
-  ${email}                 Get From Dictionary  ${ARGUMENTS[1].data.procuringEntity.contactPoint}  email
+  ${email}=                Get From Dictionary  ${ARGUMENTS[1].data.procuringEntity.contactPoint}  email
   Switch Browser    ${ARGUMENTS[0]}
   Go to   ${USERS.users['${ARGUMENTS[0]}'].default_page}
   Wait Until Page Contains Element     id=createAuction                                 20
@@ -196,9 +196,8 @@ Login
   Wait Until Page Contains Element  id=searchInput
   Input Text                        id=searchInput    ${ARGUMENTS[1]}
   Click Element                     id=search_btn
-  Wait Until Page Contains Element  xpath=html/body/div/div/div[2]/div[1]/div[2]/div[2]/p/span
-  Sleep  2
-  Click Element                     xpath=.//div[@class="item-auc background-white"][1]/div[2]/div/div/a
+  Wait Until Page Contains Element  xpath=//div[@class="inside"]
+  Click Element                     xpath=//div[@class="inside"]/*/a
   Wait Until Page Contains Element  id=title
 
 Задати питання
@@ -582,17 +581,22 @@ Login
   ...    ${ARGUMENTS[0]} ==  username
   ...    ${ARGUMENTS[1]} ==  tenderId
   ...    ${ARGUMENTS[2]} ==  ${test_bid_data}
-  ${amount}=    get_str          ${ARGUMENTS[2].data.value.amount}
   ${is_qualified}=   is_qualified         ${ARGUMENTS[2]}
   ${is_eligible}=    is_eligible          ${ARGUMENTS[2]}
   prozora.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
+  ${type}=    Отримати інформацію про procurementMethodType
+  ${amount}=  Get Str   ""
+  ${amount}=  Run Keyword If  '${type}' != 'dgfInsider'
+  ...  Get Str  ${ARGUMENTS[2].data.value.amount}
+  Reload Page
   Wait Until Page Contains Element    id=makeBid
   Click Element                       id=makeBid
   Sleep   1
-  Wait Until Page Contains Element    xpath=.//*[@id='modalMakeBid']//input[@name="bidValue"]
-  Input Text                          xpath=.//*[@id='modalMakeBid']//input[@name="bidValue"]    ${amount}
+  Run Keyword If    '${type}' != 'dgfInsider'    Wait Until Page Contains Element    xpath=.//*[@id='modalMakeBid']//input[@name="bidValue"]
+  Run Keyword If    '${type}' != 'dgfInsider'    Input Text                          xpath=.//*[@id='modalMakeBid']//input[@name="bidValue"]    ${amount}
   Run Keyword If    ${is_qualified}   Sleep  1
   ...  ELSE  ${amount}=  0
+  Run Keyword If    '${type}' != 'dgfOtherAssets'    Click Element    xpath=//input[@name="eligible"]
   Click Element     xpath=.//*[@id='modalMakeBid']//button[@type="submit"]
   [return]          ${amount}
 
@@ -602,8 +606,8 @@ Login
   ...    ${ARGUMENTS[0]} ==  username
   ...    ${ARGUMENTS[1]} ==  tenderId
   prozora.Пошук тендера по ідентифікатору  ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
-  Wait Until Page Contains Element    id=editBid
-  Click Element                       id=editBid
+  Wait Until Page Contains Element    id=makeBid
+  Click Element                       id=makeBid
   Sleep  1
   Wait Until Page Contains Element    id=deleteBid
   Click Element       id=deleteBid
@@ -611,10 +615,10 @@ Login
 Отримати інформацію із пропозиції
   [Arguments]  ${username}  ${tender_uaid}   ${field}
   prozora.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
-  Wait Until Page Contains Element    id=editBid
-  Click Element                       id=editBid
+  Wait Until Page Contains Element    id=makeBid
+  Click Element                       id=makeBid
   Sleep   1
-  ${value}=   Get Value               xpath=.//*[@id='modalChangeBid']//input[@name="value"]
+  ${value}=   Get Value               xpath=.//*[@id='modalMakeBid']//input[@name="value"]
   ${value}=   Convert To Number       ${value}
   [Return]    ${value}
 
@@ -627,25 +631,25 @@ Login
   ...    ${ARGUMENTS[3]} ==  amount.value
   ${amount}=    get_str          ${ARGUMENTS[3]}
   Reload Page
-  Wait Until Page Contains Element    id=editBid
-  Click Element                       id=editBid
+  Wait Until Page Contains Element    id=makeBid
+  Click Element                       id=makeBid
   Sleep   1
-  Wait Until Page Contains Element    xpath=.//*[@id='modalChangeBid']//input[@name="value"]
-  Input Text                          xpath=.//*[@id='modalChangeBid']//input[@name="value"]    ${amount}
+  Wait Until Page Contains Element    xpath=.//*[@id='modalMakeBid']//input[@name="value"]
+  Input Text                          xpath=.//*[@id='modalMakeBid']//input[@name="value"]    ${amount}
   sleep   1
-  Click Element                       xpath=.//*[@id='modalChangeBid']//button[@type="submit"]
+  Click Element                       xpath=.//*[@id='modalMakeBid']//button[@type="submit"]
 
 Завантажити документ в ставку
   [Arguments]  @{ARGUMENTS}
   [Documentation]
   ...    ${ARGUMENTS[1]} ==  file
   ...    ${ARGUMENTS[2]} ==  tenderId
-  Wait Until Page Contains Element    id=editBid
-  Click Element                       id=editBid
+  Wait Until Page Contains Element    id=makeBid
+  Click Element                       id=makeBid
   Sleep   1
-  Choose File                         xpath=.//*[@id='modalChangeBid']//input[@name="bidFile"]   ${ARGUMENTS[1]}
+  Choose File                         xpath=.//*[@id='modalMakeBid']//input[@name="bidFile"]   ${ARGUMENTS[1]}
   Sleep   1
-  Click Element                       xpath=.//*[@id='modalChangeBid']//button[@type="submit"]
+  Click Element                       xpath=.//*[@id='modalMakeBid']//button[@type="submit"]
 
 Змінити документ в ставці
   [Arguments]  @{ARGUMENTS}
@@ -653,25 +657,22 @@ Login
   ...    ${ARGUMENTS[0]} ==  username
   ...    ${ARGUMENTS[1]} ==  file
   ...    ${ARGUMENTS[2]} ==  bidId
-  Wait Until Page Contains Element    id=editBid
-  Click Element                       id=editBid
+  Wait Until Page Contains Element    id=makeBid
+  Click Element                       id=makeBid
   Sleep   1
-  Choose File                         xpath=.//*[@id='modalChangeBid']//input[@name="bidFile"]   ${ARGUMENTS[1]}
+  Choose File                         xpath=.//*[@id='modalMakeBid']//input[@name="bidFile"]   ${ARGUMENTS[1]}
   Sleep   1
-  Click Element                       xpath=.//*[@id='modalChangeBid']//button[@type="submit"]
+  Click Element                       xpath=.//*[@id='modalMakeBid']//button[@type="submit"]
 
 Завантажити фінансову ліцензію
   [Arguments]  ${username}  ${tender_uaid}  ${filepath}
   Reload Page
-  Wait Until Page Contains Element    xpath=html/body/header/div[2]/div/div[3]/a[1]
-  Click Element                       xpath=html/body/header/div[2]/div/div[3]/a[1]
-  Wait Until Page Contains Element    xpath=//div[@class="panel panel-default"][1]/ul/li[2]/a
-  Click Element                       xpath=//div[@class="panel panel-default"][1]/ul/li[2]/a
-  Wait Until Page Contains Element    id=documents_upload
-  Choose File                         id=documents_upload     ${filepath}
-  Sleep  5
-  Click Element                       xpath=html//form//button[@type="submit"][@class="btn btn-primary"]
-  Sleep  1
+  Wait Until Page Contains Element    id=makeBid
+  Click Element                       id=makeBid
+  Sleep   1
+  Choose File                         xpath=.//*[@id='modalMakeBid']//input[@name="financialLicenseFile"]   ${filepath}
+  Sleep   1
+  Click Element                       xpath=.//*[@id='modalMakeBid']//button[@type="submit"]
 
 Отримати інформацію про bids
   [Arguments]  @{ARGUMENTS}
@@ -681,16 +682,16 @@ Login
 Отримати посилання на аукціон для глядача
   [Arguments]  @{ARGUMENTS}
   Reload Page
-  Wait Until Page Contains Element     xpath=html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/a
-  ${result} =   Get Element Attribute  xpath=html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/a@href
+  Wait Until Page Contains Element     id=auctionUrl
+  ${result} =   Get Element Attribute  id=auctionUrl@href
   log to console  ${result}
   [return]   ${result}
 
 Отримати посилання на аукціон для учасника
   [Arguments]  @{ARGUMENTS}
   Reload Page
-  Wait Until Page Contains Element     xpath=html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/a
-  ${result} =   Get Element Attribute  xpath=html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/a@href
+  Wait Until Page Contains Element     id=auctionUrl
+  ${result} =   Get Element Attribute  id=auctionUrl@href
   log to console  ${result}
   [return]   ${result}
 

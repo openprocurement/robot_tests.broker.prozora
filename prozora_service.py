@@ -16,14 +16,15 @@ def convert_prozora_string_to_common_string(string):
     return {
         u"з ПДВ": True,
         u"без ПДВ": False,
-        u"Фінансовий актив": "dgfFinancialAssets",
+        u"Права вимоги за кредитами": "dgfFinancialAssets",
+        u"Голандський аукціон": "dgfInsider",
         u"Майно": "dgfOtherAssets",
-        u"Прийом пропозицій": "active.tendering",
-        u"Торги відмінено": "cancelled",
-        u"Торги не відбулись": "unsuccessful",
+        u"Пропозиції": "active.tendering",
+        u"Відмінений": "cancelled",
+        u"Не відбувся": "unsuccessful",
         u"Аукціон": "active.auction",
-        u"Очікується підписання договору": "active.qualification",
-        u"Оплата отримана. Очікується підписання контракту": "active.awarded",
+        u"Кваліфікація": "active.qualification",
+        u"Розглянуто": "active.awarded",
         u"Завершений": "complete",
         u"грн": "UAH",
         u"Очікується завантаження підписаного переможцем протоколу аукціону": "pending.verification",
@@ -37,9 +38,9 @@ def convert_prozora_string_to_common_string(string):
 def convert_document_type(string):
     return {
         u"Паспорт торгів": "tenderNotice",
-        u"Публічний паспорт активу": "technicalSpecifications",
+        u"Технічні специфікації": "technicalSpecifications",
         u"Критерії оцінки": "evaluationCriteria",
-        u"Пояснення для учасників торгів": "clarifications",
+        u"Пояснення до питань заданих учасниками": "clarifications",
         u"Інформація про учасників торгів": "bidders",
         u"Іллюстрації": "illustration",
         u"Публічний паспорт активу": "x_dgfPublicAssetCertificate",
@@ -52,9 +53,6 @@ def convert_document_type(string):
 
 def get_min_step(initial_tender_data):
     return str(initial_tender_data.data.minimalStep.amount)
-
-def get_quantity(item):
-    return str(item.quantity)
 
 def get_tenderAttempts(item):
     return str(item.tenderAttempts)
