@@ -16,7 +16,7 @@ ${locator.description}                                          id=description
 ${locator.minimalStep.amount}                                   id=minimal-step-info
 ${locator.value.amount}                                         id=value-info
 ${locator.value.valueAddedTaxIncluded}                          xpath=.//*[@id='tax-info']/span
-${locator.value.currency}                                       xpath=.//*[@id='param-auc']/table/tbody/tr[6]/td[1]/span
+${locator.value.currency}                                       id=auction-value-currency
 ${locator.auctionPeriod.startDate}                              id=auction-start-info
 ${locator.auctionPeriod.endDate}                                id=auction-end-info
 ${locator.enquiryPeriod.startDate}                              id=tendering-start-info
@@ -86,7 +86,9 @@ ${locator.awards[1].status}                                     xpath=.//*[@id='
 Підготувати клієнт для користувача
   [Arguments]     @{ARGUMENTS}
   [Documentation]  Відкрити брaвзер, створити обєкт api wrapper, тощо
-  Open Browser  ${USERS.users['${ARGUMENTS[0]}'].homepage}  ${USERS.users['${ARGUMENTS[0]}'].browser}  alias=${ARGUMENTS[0]}
+  ${alias}=   Catenate   SEPARATOR=   role_  ${ARGUMENTS[0]}
+  Set Global Variable   ${BROWSER_ALIAS}   ${alias}
+  Open Browser  ${USERS.users['${ARGUMENTS[0]}'].homepage}  ${USERS.users['${ARGUMENTS[0]}'].browser}  alias=${BROWSER_ALIAS}
   Set Window Size       @{USERS.users['${ARGUMENTS[0]}'].size}
   Set Window Position   @{USERS.users['${ARGUMENTS[0]}'].position}
   Run Keyword If   '${ARGUMENTS[0]}' != 'prozora_Viewer'   Login   ${ARGUMENTS[0]}
@@ -97,7 +99,7 @@ ${locator.awards[1].status}                                     xpath=.//*[@id='
 
 Login
   [Arguments]  @{ARGUMENTS}
-  Click Element    xpath=.//header/div[2]/div/div[3]/a[1]
+  Click Element    id=login-btn
   Sleep   1
   Input Text       xpath=html/body/div/div/div/div/div[2]/form/div[1]/input    ${USERS.users['${ARGUMENTS[0]}'].login}
   Input Text       xpath=html/body/div/div/div/div/div[2]/form/div[2]/input    ${USERS.users['${ARGUMENTS[0]}'].password}
@@ -191,7 +193,7 @@ Login
   [Documentation]
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${TENDER}
-  Switch Browser    ${ARGUMENTS[0]}
+  Switch Browser   ${BROWSER_ALIAS}
   Go to   ${USERS.users['${ARGUMENTS[0]}'].default_page}
   Wait Until Page Contains Element  id=searchInput
   Input Text                        id=searchInput    ${ARGUMENTS[1]}
@@ -251,7 +253,7 @@ Login
   [Documentation]
   ...      ${ARGUMENTS[0]} = username
   ...      ${ARGUMENTS[1]} = ${TENDER_UAID}
-  Switch Browser    ${ARGUMENTS[0]}
+  Switch Browser   ${BROWSER_ALIAS}
   prozora.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}    ${ARGUMENTS[1]}
 
 Отримати інформацію із предмету
@@ -681,6 +683,7 @@ Login
 
 Отримати посилання на аукціон для глядача
   [Arguments]  @{ARGUMENTS}
+  Switch Browser   ${BROWSER_ALIAS}
   Reload Page
   Wait Until Page Contains Element     id=auctionUrl
   ${result} =   Get Element Attribute  id=auctionUrl@href
@@ -689,6 +692,7 @@ Login
 
 Отримати посилання на аукціон для учасника
   [Arguments]  @{ARGUMENTS}
+  Switch Browser   ${BROWSER_ALIAS}
   Reload Page
   Wait Until Page Contains Element     id=auctionUrl
   ${result} =   Get Element Attribute  id=auctionUrl@href
